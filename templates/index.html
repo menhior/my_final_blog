@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+  <style>
+    .limit{
+    width:100%;
+    word-wrap: break-word;
+}
+  </style>
+    <!-- Hero Section-->
+    <section style="background: url({% static 'img/city.jpg' %}); background-size: cover; background-position: center center" class="hero">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7">
+            <h1> Welcome and thanks for visiting.
+              </h1><a href="/blog/" class="hero-link">Go straight to the posts.</a>
+          </div>
+        </div><a href=".intro" class="continue link-scroll"><i class="fa fa-long-arrow-down"></i> Scroll Down</a>
+      </div>
+    </section>
+    <!-- Intro Section-->
+    <section class="intro">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <h2 class="h3">
+            Hi, my pseudonym is ZZakariya. Welcome to my blog!
+            </h2>
+            <p class="text-big">
+              This blog's purpose is for me and my friends to share our hobbies and personal interests, related to <strong>programming, finance, economics and others</strong>, as well as to share our opinions on different topics. Hope you'll find articles here entertaining or possibly helpful. Thanks for reading.
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="featured-posts no-padding-top">
+      <div class="container">
+        <!-- Post-->
+        {% for obj in object_list %}
+        <div class="row d-flex align-items-stretch">
+          {% if not forloop.first and not forloop.last %}
+          <div class="image col-lg-5"><img src="{{ obj.thumbnail.url }}" alt="..."></div>
+          {% endif %}
+          <div class="text col-lg-7">
+            <div class="text-inner d-flex align-items-center">
+              <div class="content limit">
+                <header class="post-header">
+                  <div class="category">
+                    {% for cat in obj.categories.all %}
+                    <a href="#">{{ cat }}</a>
+                    {% endfor %}
+                  </div><a href="{{obj.get_absolute_url}}">
+                    <h2 class="h4">{{ obj.title }}</h2></a>
+                </header>
+                <p>{{ obj.overview|safe|linebreaks|truncatechars:350 }}</p>
+                <footer class="post-footer d-flex align-items-center "><a href="#" class="author d-flex align-items-center flex-wrap">
+                    <div class="avatar"><img src="{{ obj.author.profile_picture.url }}" alt="..." class="img-fluid"></div>
+                    <div class="title"><span>{{ obj.author }}</span></div></a>
+                  <div class="date"><i class="icon-clock"></i> {{obj.timestamp|timesince}} ago </div>
+                  <div class="date"><i class="icon-eye"></i>{{obj.get_view_count}}</div>
+                  <div class="comments"><i class="icon-comment"></i>{{ obj.comment_count }}</div>
+
+                </footer>
+              </div>
+            </div>
+          </div>
+          {% if forloop.first or forloop.last %}
+          <div class="image col-lg-5"><img src="{{ obj.thumbnailURL }}" alt="..."></div>
+          {% endif %}
+          
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    <!-- Divider Section-->
+    <section style="background: url({% static 'img/divider-bg.jpg' %}); background-size: cover; background-position: center bottom" class="divider">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <h2>Take a look at most recent posts listed below</h2><a href="/blog/" class="hero-link">Or see all posts.</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Latest Posts -->
+    <section class="latest-posts"> 
+      <div class="container">
+        <header> 
+          <h2>Latest from the blog</h2>
+          <!--<p class="text-big">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>-->
+        </header>
+        <div class="row">
+          {% for obj in latest %}
+          <div class="post col-md-4">
+            <div class="post-thumbnail"><a href="#"><img src="{{ obj.thumbnailURL }}" alt="..." class="img-fluid"></a></div>
+            <div class="post-details limit">
+              <div class="post-meta d-flex justify-content-between">
+                <div class="date">{{ obj.timestamp }}</div>
+                <div class="category">
+                  {% for cat in obj.categories.all %}
+                  <a href="#">{{ cat }}</a>
+                  {% endfor %}
+                  </div>
+              </div><a href="#">
+                <h3 class="h4">{{ obj.title }}</h3></a>
+              <p class="text-muted limit">{{ obj.overview|safe|linebreaks|truncatechars:200 }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- Gallery Section-->
+    <section class="gallery no-padding">    
+      <div class="row">
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><a href="{% static 'img/construction.jpg' %}" data-fancybox="gallery" class="image"><img src="{% static 'img/construction.jpg' %}" alt="construction of a building" class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i></div></a></div>
+        </div>
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><a href="{% static 'img/python_programming-min.jpg' %}" data-fancybox="gallery" class="image"><img src="{% static 'img/python_programming-min.jpg' %}" alt="python programming" class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i></div></a></div>
+        </div>
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><a href="img/money.jpg" data-fancybox="gallery" class="image"><img src="{% static 'img/money.jpg' %}" alt="money, bitcoin" class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i></div></a></div>
+        </div>
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><a href="{% static 'img/stock-market1.jpg' %}" data-fancybox="gallery" class="image"><img src="{% static 'img/stock-market1.jpg' %}" alt=" chart of numbers on stock market" class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i></div></a></div>
+        </div>
+      </div>
+    </section>
+
+{% endblock %}

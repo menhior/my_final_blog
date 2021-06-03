@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <!--TITLE-->
+    <title>{{post.title|safe}} - ZZak-Blog.</title>
+    <!--META CHARSET-->
+    <meta charset="UTF-8">
+    <!--META VIEWPORT-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--META EDGE-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--META DESCRIPTION-->
+    <meta name="description" content="{{overview|safe|linebreaks|truncatechars:130}}">
+    <!--META KEYWORDS-->
+    <meta name="keywords" content="ZZAK, ZZAKARIYA, ZZAK-Blog, {{ post.keywords }}">
+    <!--META AUTHOR-->
+    <meta name="author" content="{{post.author}}">
+    <!--REST OF META DATA-->
+    <meta name="google-site-verification" content="Vx6pVNgBPLF8FoIYTXafRsYYWLu5dNPuoQ5SR8OozO0" />
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="{% static 'vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Custom icon font-->
+    <link rel="stylesheet" href="{% static 'css/fontastic.css' %}">
+    <!-- Google fonts - Open Sans-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <!-- Fancybox-->
+    <link rel="stylesheet" href="{% static 'vendor/@fancyapps/fancybox/jquery.fancybox.min.css' %}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="{% static 'css/style.default.css' %}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <link rel="stylesheet" href="{% static 'styles/github.css' %}">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+</head>
+<body>
+{% include 'header.html' %}
+
+<style>
+  .limit{
+    width:100%;
+    word-wrap: break-word;
+}
+</style>
+
+    <div class="container">
+      <div class="row">
+        <!-- Latest Posts -->
+        <main class="post blog-post col-lg-8"> 
+          <div class="container">
+            <div class="post-single">
+              <div class="post-thumbnail"><img src="{{post.thumbnailURL}}" alt="..." class="img-fluid"></div>
+              <div class="post-details">
+                <div class="post-meta d-flex justify-content-between">
+                  <div class="category">
+                    {% for cat in post.categories.all %}
+                    <a href="#">{{cat}}</a>
+                    {% endfor %}
+                  </div>
+                  {% if request.user.is_staff %}
+                  <div>
+                    <a href="{{post.get_update_url}}">Update</a>
+                    <a href="{% url 'post_delete_view' post.pk %}">Delete</a>
+                  </div>
+                  {% endif %}         
+                </div>
+                <h1>{{post.title}}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
+                <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#" class="author d-flex align-items-center flex-wrap">
+                    <div class="avatar"><img src="{{post.author.profile_picURL}}" alt="..." class="img-fluid"></div>
+                    <div class="title"><span>{{post.author.name}}</span></div></a>
+                  <div class="d-flex align-items-center flex-wrap">       
+                    <div class="date"><i class="icon-clock"></i> {{post.timestamp|timesince}} ago</div>
+                    <div class="views"><i class="icon-eye"></i>{{post.get_view_count}}</div>
+                    <div class="comments meta-last"><i class="icon-comment"></i>{{post.comment_count}}</div>
+                  </div>
+                </div>
+                <div class="post-body limit">
+                  {{post.content|safe}}
+                </div>
+                <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row">
+                  {% if post.previous_post %}
+                  <a href="{{post.previous_post.get_absolute_url}}" class="prev-post text-left d-flex align-items-center">
+                    <div class="icon prev"><i class="fa fa-angle-left"></i></div>
+                    <div class="text"><strong class="text-primary">Previous Post </strong>
+                      <h6>{{post.previous_post.title}}</h6>
+                    </div></a>
+                    {% endif %}
+                    {% if post.next_post %}
+                    <a href="{{post.next_post.get_absolute_url}}" class="next-post text-right d-flex align-items-center justify-content-end">
+                    <div class="text"><strong class="text-primary">Next Post </strong>
+                      <h6>{{post.next_post.title}}</h6>
+                    </div>
+                    <div class="icon next"><i class="fa fa-angle-right">   </i></div></a>
+                    {% endif %}
+                  </div>
+
+                  <div class="add-comment">
+                    <header>
+                      <h3 class="h6">Leave a reply</h3>
+                    </header>
+                    <form method="POST" action="#" class="commenting-form">
+                      {% csrf_token %}
+                      <div class="row"> 
+                        <div class="form-group col-md-6">
+                          {{ form.email }}
+                        </div>
+                        <div class="form-group col-md-6">
+                          {{ form.name }}
+                        </div>              
+                        <div class="form-group col-md-12">
+                          {{ form.content }}
+                        </div>                     
+                        <div class="form-group col-md-12">
+                          <button type="submit" class="btn btn-secondary">Submit Comment</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                <div class="post-comments">
+                  <header>
+                    <h3 class="h6">Post Comments<span class="no-of-comments">({{post.comment_count}})</span></h3>
+                  </header>
+                  {% for comment in post.get_comments %}
+                  <div class="comment">
+                    <div class="comment-header d-flex justify-content-between">
+                      <div class="user d-flex align-items-center">
+                        <div class="image">
+                          {% if comment.user.author %}
+                          <img src="{{comment.user.author.profile_picURL}}" alt="..." class="img-fluid rounded-circle">
+                          {% else %}
+                          <img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle">
+                          {% endif %}
+                        </div>
+                        <div class="title"><strong>{{comment.user.username}}</strong><span class="date">{{comment.timestamp|timesince}} ago</span></div>
+                      </div>
+                    </div>
+                    <div class="comment-body">
+                      <p>{{comment.content}}</p>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                <!--{% if request.user.is_authenticated %}-->
+                
+                <!--{% else %}
+                  <a href="{% url 'account_login' %}" class="btn btn-primary">Login to comment</a>
+                {% endif %}-->
+              </div>
+            </div>
+          </div>
+        </main>
+        {% include 'sidebar_test.html' with most_recent=most_recent category_count=category_count testing=testing %}
+      </div>
+    </div>
+
+{% include 'footer.html' %}
+{% include 'scripts.html' %}
+</body>
+
+</html>
