@@ -15,7 +15,7 @@ class CustomUserAdmin(UserAdmin):
     readonly_fields = ["date_joined"]
 
 class PostAdmin(admin.ModelAdmin):
-    form = PostAdminForm
+    form = PostForm
 
 admin.site.register(Post, PostAdmin)
 
