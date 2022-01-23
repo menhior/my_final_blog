@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: /hidden_admin/
+Disallow: /accounts/login/
+
+Sitemap: https://zzak-blog.herokuapp.com/sitemap.xml

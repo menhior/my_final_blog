@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+{% block content %}
+
+	<style>
+		.login_btn {
+			width: 100%;
+			background: #33ccff !important;
+			color: white !important;
+			font-size: 0.9rem;
+  			letter-spacing: 0.05rem;
+  			padding: 0.75rem 1rem;
+  			border-radius: 2rem;
+		}
+		.login_btn:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+
+		.social_login_btn {
+			width: 100%;
+			color: white !important;
+			font-size: 0.9rem;
+  			letter-spacing: 0.05rem;
+  			padding: 0.75rem 1rem;
+  			border-radius: 2rem;
+		}
+		}
+	</style>
+
+	<br>
+    <br>
+	<div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				<div class="d-flex justify-content-center">
+
+
+					<h3 id="form-title">LOGIN</h3>
+				</div>
+				<div class="d-flex justify-content-center form_container">
+					<form class="form-signin">
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+							</div>
+							<label for="inputEmail" class="sr-only">Email address</label>
+							<input type="email" name="email" placeholder="Email..." class="form-control" required autofocus>
+						</div>
+
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+								<label for="inputPassword" class="sr-only">Password</label>
+								<input type="password" name="password" placeholder="Password..." class="form-control" >
+						</div>
+
+						<div class="d-flex checkbox mt-3 justify-content-center">
+		                  <label>
+		                    <input type="checkbox" value="remember-me"> Remember me
+		                  </label>
+		                </div>
+
+							<div class="d-flex justify-content-center mt-3">
+				 				<button class="btn login_btn btn-primary btn-lg btn-block font-weight-bold text-uppercase " type="submit">Sign in</button>
+				   			</div>
+				   			<div class="d-flex justify-content-center mt-3">
+				   			<a href="{% provider_login_url 'google' %}" class="btn btn btn-danger btn-lg btn-block font-weight-bold social_login_btn" role="button" aria-pressed="true">Sign in with Google</a>
+				   			</div>
+				   		</div>
+					</form>
+
+				</div>		
+			</div>
+		</div>
+	</div>
+
+	<br>
+    <br>
+{% endblock %}
