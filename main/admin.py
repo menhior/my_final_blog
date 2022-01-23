@@ -14,16 +14,16 @@ class CustomUserAdmin(UserAdmin):
     list_display = ['email', 'username',]
     readonly_fields = ["date_joined"]
 
-"""class PostAdmin(admin.ModelAdmin):
+class PostAdmin(admin.ModelAdmin):
     form = PostAdminForm
 
-admin.site.register(Post, PostAdmin)"""
+admin.site.register(Post, PostAdmin)
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
 
 admin.site.register(Author)
-admin.site.register(Post)
+#admin.site.register(Post)
 admin.site.register(Category)
 admin.site.register(Comment)
 #admin.site.register(PostViews)
