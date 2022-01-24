@@ -1,10 +1,11 @@
 from .signals import object_viewed_signal, filter_signal, search_signal
+from django.core.exceptions import ObjectDoesNotExist
 
 class ObjectViewMixin(object):
     def dispatch(self, request, *args,**kwargs):
         try:
             instance = self.get_object()
-        except DoesNotExist:
+        except ObjectDoesNotExist:
             instance = None
         if instance is not None:
             object_viewed_signal.send(instance.__class__, instance=instance, request=request)
@@ -15,7 +16,7 @@ class FilterViewMixin:
         page="FilterPage"
         try:
             queryset = self.get_queryset()
-        except DoesNotExist:
+        except ObjectDoesNotExist:
             queryset = None
         if queryset is not None:
             filter_signal.send(page, queryset=queryset, request=request)
@@ -26,7 +27,7 @@ class SearchViewMixin:
         page="SearchPage"
         try:
             queryset = self.get_queryset()
-        except DoesNotExist:
+        except ObjectDoesNotExist:
             queryset = None
         if queryset is not None:
             search_signal.send(page, queryset=queryset, request=request)
