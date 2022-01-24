@@ -71,8 +71,8 @@ class Category(models.Model):
 from analytics.models import ObjectViewed
 
 class Post(models.Model):
-    title = models.CharField(max_length=100)
-    slug = models.SlugField(null=True, blank=True)
+    title = models.CharField(max_length=120)
+    slug = models.SlugField(max_length=120, null=True, blank=True)
     keywords = models.CharField(max_length=100, null=True, blank=True)
     overview = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
